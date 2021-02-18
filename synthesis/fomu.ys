@@ -1,0 +1,9 @@
+read_verilog -icells -D PVT=1 ../hdl/fomu.v
+
+synth_ice40 -abc9 -abc2 -dsp -top fomu
+
+chtype -set $_BUF_ t:loop_breaker; opt
+
+stat
+
+write_json fomu.json

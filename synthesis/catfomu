@@ -1,0 +1,86 @@
+#!/Users/jayjayjay/opt/anaconda3/envs/hackathons/bin/python
+import PySimpleGUI as sg
+
+from collections import Counter
+
+import serial as ser
+import glob
+
+import itertools
+
+f = glob.glob('/dev/cu.usb*')[0]
+
+port = ser.Serial(f)
+
+rows=8
+columns=8
+alltiles = list(itertools.product(range(rows), range(columns)))
+
+def to_offset(i, j):
+    return j*columns + i
+
+def from_offset(offset):
+    return offset % columns, offset // columns
+
+on = [[0 for i in range(rows)] for j in range(columns)]
+
+on[-1][-1] = 1;
+port.write(bytes([(to_offset(columns-1, rows-1) << 1) + 1]))
+
+inbuttons = [
+    [
+    sg.Button(str(on[j][i]), key=('IN', j, i), size=(3, 1), pad=(0, 0,), button_color=('white', ('red', 'green')[on[i][j]]))
+    for i in range(rows)
+    ] for j in range(columns)]
+
+
+outbuttons = [
+    [
+    sg.Button('0', key=('OUT', j, i), size=(3, 1), pad=(0, 0,), button_color=('white', 'red',))
+    for i in range(rows)
+    ] for j in range(columns)]
+
+layout = [
+    [sg.Text('Welcome to catfomu!')],
+]
+
+layout += inbuttons
+layout += [[sg.VSeperator()]]
+layout += outbuttons
+
+window = sg.Window('catfomu', layout)
+
+while True:
+    event, values = window.read(timeout=50)
+
+    if event == sg.WINDOW_CLOSED:
+        break
+
+    if type(event) == tuple and event[0] == 'IN':
+        _, j, i = event
+        on[j][i] = 1-on[j][i]
+        window[event](
+            ('0','1')[on[j][i]],
+            button_color=('white', ('red', 'green')[on[j][i]])
+            )
+
+        port.write(bytes([(to_offset(i, j) << 1) + on[j][i]]))
+
+    nextbytes = [port.read_until(bytes([42])) for _ in range(3)]
+    mostcommon = Counter(nextbytes).most_common(1)[0][0]
+
+    bptr = 0
+    for i, j in alltiles:
+        nextbyte = mostcommon[bptr]
+
+        if nextbyte == 42:
+            break
+
+        window['OUT', j, i](
+            bytes([nextbyte]).decode('ascii'),
+            button_color=('white', ('red', 'green')[nextbyte == 49])
+        )
+        bptr += 1
+
+
+window.close()
