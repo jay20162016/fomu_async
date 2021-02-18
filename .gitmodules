@@ -1,4 +1,6 @@
 [submodule "hdl/async"]
+	path = hdl/async
 	url = https://github.com/jay20162016/async
 [submodule "hdl/tinyfpga_bx_usbserial"]
+	path = hdl/tinyfpga_bx_usbserial
 	url = https://github.com/davidthings/tinyfpga_bx_usbserial
