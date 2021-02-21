@@ -1,7 +1,7 @@
 `include "async/async.v"
 
 module something #(parameter il = 64, parameter ol = 64, parameter cs = 8)
-  (input [64-1:0] intext, output [64-1:0] outtext);
+  (input [il-1:0] intext, output [ol-1:0] outtext);
 
     localparam col_size = cs;
 
@@ -22,6 +22,7 @@ module something #(parameter il = 64, parameter ol = 64, parameter cs = 8)
     // sink main_sink (
     //   req_i2, ack_i2
     //   );
+
 
     wire req_i1, ack_i1, dat_i1;
     hlatch #(.RhandshakeVal(1'b0), .RdataVal(1'b0)) main0 (
@@ -97,26 +98,42 @@ module something #(parameter il = 64, parameter ol = 64, parameter cs = 8)
 
     wire req_i4_56, ack_i4_56, dat_i4_56;
 
-    split fork4_56 (
-      req_i4_56, ack_i4_56,
-      req_i5, ack_i5,
-      req_i6, ack_i6,
+    // split fork4_56 (
+    //   req_i4_56, ack_i4_56,
+    //   req_i5, ack_i5,
+    //   req_i6, ack_i6,
+    //   intext[63]
+    //   );
+    //
+    // assign dat_i5 = dat_i4_56;
+    // assign dat_i6 = dat_i4_56;
+
+    // demux demux4_56 (
+    //   req_i4_56, ack_i4_56, dat_i4_56,
+    //   intext[col_size + 4], intext[col_size + 5], outtext[col_size + 4],
+    //   req_i5, ack_i5, dat_i5,
+    //   req_i6, ack_i6, dat_i6,
+    //   intext[63]
+    //   );
+
+    demux2 demux4_56 (
+      req_i4_56, ack_i4_56, dat_i4_56,
+      intext[col_size + 4], intext[col_size + 5], outtext[col_size + 4],
+      req_i5, ack_i5, dat_i5,
+      req_i6, ack_i6, dat_i6,
       intext[63]
       );
-
-    assign dat_i5 = dat_i4_56;
-    assign dat_i6 = dat_i4_56;
 
     wire req_i6, ack_i6, dat_i6;
     hlatch #(.RhandshakeVal(1'b0), .RdataVal(1'b0)) main5 (
       req_i5, ack_i5, dat_i5,
       // req_i6, ack_i6, dat_i6,
-      outtext[col_size*3+0], intext[col_size*3+0], outtext[col_size*3+1],
+      outtext[col_size*2+0], intext[col_size*2+0], outtext[col_size*2+1],
       intext[63]);
 
     hlatch #(.RhandshakeVal(1'b0), .RdataVal(1'b0)) main6 (
       req_i6, ack_i6, dat_i6,
-      outtext[col_size*2+0], intext[col_size*2+0], outtext[col_size*2+1],
+      outtext[col_size*3+0], intext[col_size*3+0], outtext[col_size*3+1],
       intext[63]);
 
 endmodule

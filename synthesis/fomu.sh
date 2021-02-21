@@ -8,10 +8,7 @@ icepack fomu.asc fomu.dfu
 
 dfu-suffix -v 1209 -p 70b1 -a fomu.dfu
 
-until dfu-util -D fomu.dfu
-do 
-    sleep 1
-done
+dfu-util -w -D fomu.dfu
 
 
 #screen /dev/cu.usb*

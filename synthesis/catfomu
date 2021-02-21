@@ -30,15 +30,15 @@ port.write(bytes([(to_offset(columns-1, rows-1) << 1) + 1]))
 inbuttons = [
     [
     sg.Button(str(on[j][i]), key=('IN', j, i), size=(3, 1), pad=(0, 0,), button_color=('white', ('red', 'green')[on[i][j]]))
-    for i in range(rows)
-    ] for j in range(columns)]
+    for j in range(columns)
+    ] for i in range(rows)]
 
 
 outbuttons = [
     [
     sg.Button('0', key=('OUT', j, i), size=(3, 1), pad=(0, 0,), button_color=('white', 'red',))
-    for i in range(rows)
-    ] for j in range(columns)]
+    for j in range(columns)
+    ] for i in range(rows)]
 
 layout = [
     [sg.Text('Welcome to catfomu!')],
@@ -70,7 +70,7 @@ while True:
     mostcommon = Counter(nextbytes).most_common(1)[0][0]
 
     bptr = 0
-    for i, j in alltiles:
+    for j, i in alltiles:
         nextbyte = mostcommon[bptr]
 
         if nextbyte == 42:
