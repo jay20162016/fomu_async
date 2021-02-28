@@ -116,11 +116,25 @@ module something #(parameter il = 64, parameter ol = 64, parameter cs = 8)
     //   intext[63]
     //   );
 
-    demux2 demux4_56 (
+    // demux2 demux4_56 (
+    //   req_i4_56, ack_i4_56, dat_i4_56,
+    //   intext[col_size + 4], intext[col_size + 5], outtext[col_size + 4],
+    //   req_i5, ack_i5, dat_i5,
+    //   req_i6, ack_i6, dat_i6,
+    //   intext[63]
+    //   );
+
+    // cond_sink csink4_5 (
+    //   req_i4_56, ack_i4_56, dat_i4_56,
+    //   intext[col_size + 4], intext[col_size + 5], outtext[col_size + 4],
+    //   req_i5, ack_i5, dat_i5,
+    //   intext[63]
+    //   );
+
+    cond_sink2 csink4_5 (
       req_i4_56, ack_i4_56, dat_i4_56,
       intext[col_size + 4], intext[col_size + 5], outtext[col_size + 4],
       req_i5, ack_i5, dat_i5,
-      req_i6, ack_i6, dat_i6,
       intext[63]
       );
 
