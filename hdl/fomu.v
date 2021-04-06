@@ -14,7 +14,7 @@
 `include "tinyfpga_bx_usbserial/usb/usb_uart_core.v"
 `include "tinyfpga_bx_usbserial/usb/usb_uart_i40.v"
 
-`include "something2.v"
+`include "something.v"
 
 `define BLUEPWM  RGB0PWM
 `define GREENPWM RGB1PWM
