@@ -1,4 +1,4 @@
-`include "lut.v"
+`include "lut.sv"
 
 
 module test_lut ();

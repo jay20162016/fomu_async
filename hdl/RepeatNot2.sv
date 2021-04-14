@@ -1,4 +1,4 @@
-`include "async/async.v"
+`include "async/async.sv"
 
 module RepeatNot2 #(
   parameter N = 8

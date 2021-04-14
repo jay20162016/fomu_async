@@ -1,4 +1,4 @@
-`include "async/async.v"
+`include "async/async.sv"
 
 module something #(parameter il = 64, parameter ol = 64, parameter cs = 8)
   (input [il-1:0] intext, output [ol-1:0] outtext);

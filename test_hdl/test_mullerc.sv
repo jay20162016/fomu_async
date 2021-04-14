@@ -1,4 +1,4 @@
-`include "mullerc.v"
+`include "mullerc.sv"
 
 
 module test_mullerc ();
