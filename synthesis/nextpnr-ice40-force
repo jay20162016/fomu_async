@@ -1,0 +1,37 @@
+name=$1
+pcf=$2
+rm *.log
+rm $name.*.asc
+
+LOOPS=$3
+PARALLEL=$4
+
+for loop in $( seq 1 $LOOPS )
+do
+    echo "loop $loop"
+    arr="arr=( $( printf '0 %.0s' $( seq 1 $PARALLEL ) ) )"
+    eval $arr
+
+    for i in $( seq 1 $PARALLEL )
+    do
+        seed=$RANDOM
+        nextpnr-ice40 --seed $seed --quiet --up5k --log $seed.log --package uwg30 \
+                                        --asc $name.$seed.asc --pcf $pcf.pcf --json $name.json --opt-timing --ignore-loops &
+        pid=$!
+        arr[i-1]=$pid
+        echo "started $pid"
+    done
+
+    for i in $( seq 1 $PARALLEL )
+    do
+        pid=${arr[i-1]}
+        echo "joining $pid"
+        wait $pid
+    done
+done
+
+grep "Max frequency" *.log | awk '{print $7,$1}' | sort | tail -n 1 | sed "s/.log:Info://" | \
+    awk '{print "." $2 ".asc"}' | xargs echo $name | sed "s/ //" | awk "{print \$1 \" $name.asc\"}" | xargs mv
+grep "Max frequency" *.log | awk '{print $7}' | sort | tail -n 1
+rm *.log
+rm $name.*.asc

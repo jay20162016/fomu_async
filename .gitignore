@@ -1,3 +1,4 @@
 synthesis/fomu.dfu
-synthesis/fomu.asc
+synthesis/fomu.*asc
 synthesis/fomu.json
+synthesis/*.log
