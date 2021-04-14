@@ -15,6 +15,7 @@
 `include "tinyfpga_bx_usbserial/usb/usb_uart_i40.v"
 
 `include "something.v"
+`include "async/loop_breaker.v"
 
 `define BLUEPWM  RGB0PWM
 `define GREENPWM RGB1PWM
@@ -154,7 +155,21 @@ module fomu (
     ███████ ██   ██ ███████  ██████     ███████  ██████   ██████  ██  ██████
     */
 
-    something #(.il(inputlen), .ol(outputlen), .cs(col_size)) main (intext, outtext2);
+    wire [inputlen-1:0] intext_;
+    wire [outputlen-1:0] outtext_;
+
+    genvar gen_i;
+    generate
+      for (gen_i = 0; gen_i < inputlen; gen_i = gen_i + 1) begin
+      loop_breaker intext_loop_breaker (intext[gen_i], intext_[gen_i]);
+      end
+    endgenerate
+    something #(.il(inputlen), .ol(outputlen), .cs(col_size)) main (intext_, outtext_);
+    generate
+      for (gen_i = 0; gen_i < outputlen; gen_i = gen_i + 1) begin
+      loop_breaker outtext_loop_breaker (outtext_[gen_i], outtext2[gen_i]);
+      end
+    endgenerate
 
     /*
     ██      ███████ ██████  ███████

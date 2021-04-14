@@ -8,6 +8,7 @@ module something #(parameter il = 64, parameter ol = 64, parameter cs = 8)
 
   localparam N = 32;
 
+  wire a_i1, a_i2;
 
   RepeatNot2 #(.N(N)) main (a_i2, outtext[0], outtext[col_size +: N], intext[63]);
   assign a_i2 = a_i1 & intext[0];
