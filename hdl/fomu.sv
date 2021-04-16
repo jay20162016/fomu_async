@@ -119,7 +119,7 @@ module fomu (
                     uart_in_data <= 8'd48 + {7'b0, outtext[send_cursor]};
                     send_cursor <= send_cursor + 1;
                 end
-                else begin // nothing to send? send end!
+                else begin // nothing to send? send end token!
                     send_cursor <= 0;
                     uart_in_data <= 42;
                 end
