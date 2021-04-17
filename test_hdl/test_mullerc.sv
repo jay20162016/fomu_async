@@ -1,4 +1,4 @@
-`include "mullerc.sv"
+`include "../hdl/async/common/mullerc.sv"
 
 
 module test_mullerc ();

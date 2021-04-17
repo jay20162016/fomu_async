@@ -15,7 +15,7 @@
 `include "tinyfpga_bx_usbserial/usb/usb_uart_i40.v"
 
 `include "something.sv"
-`include "async/loop_breaker.sv"
+`include "async/common/loop_breaker.sv"
 
 `define BLUEPWM  RGB0PWM
 `define GREENPWM RGB1PWM

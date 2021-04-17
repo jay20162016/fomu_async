@@ -1,4 +1,4 @@
-`include "lut.sv"
+`include "../hdl/async/common/lut.sv"
 
 
 module test_lut ();
