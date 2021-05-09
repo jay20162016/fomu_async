@@ -62,12 +62,12 @@ module something #(parameter il = 64, parameter ol = 64, parameter cs = 8)
     //   intext[63]
     //   );
 
-    arbiter merge01_2 (
-      req_i1, ack_i1, dat_i1,
-      req_i2, ack_i2, dat_i2,
-      req_i12_3, ack_i12_3, dat_i12_3,
-      intext[63]
-      );
+    // arbiter merge01_2 (
+    //   req_i1, ack_i1, dat_i1,
+    //   req_i2, ack_i2, dat_i2,
+    //   req_i12_3, ack_i12_3, dat_i12_3,
+    //   intext[63]
+    //   );
 
     // mux mux01_2 (
     //   req_i1, ack_i1, dat_i1,
@@ -97,7 +97,6 @@ module something #(parameter il = 64, parameter ol = 64, parameter cs = 8)
       req_i4, ack_i4, dat_i4,
       intext[63]);
 
-    wire req_i5, ack_i5, dat_i5;
     hlatch #(.RhandshakeVal(1'b0), .RdataVal(1'b0)) main4 (
       req_i4, ack_i4, dat_i4,
       req_i4_56, ack_i4_56, dat_i4_56,
@@ -105,15 +104,15 @@ module something #(parameter il = 64, parameter ol = 64, parameter cs = 8)
 
     wire req_i4_56, ack_i4_56, dat_i4_56;
 
-    split fork4_56 (
-      req_i4_56, ack_i4_56,
-      req_i5, ack_i5,
-      req_i6, ack_i6,
-      intext[63]
-      );
-
-    assign dat_i5 = dat_i4_56;
-    assign dat_i6 = dat_i4_56;
+    // split fork4_56 (
+    //   req_i4_56, ack_i4_56,
+    //   req_i5, ack_i5,
+    //   req_i6, ack_i6,
+    //   intext[63]
+    //   );
+    //
+    // assign dat_i5 = dat_i4_56;
+    // assign dat_i6 = dat_i4_56;
 
     // demux demux4_56 (
     //   req_i4_56, ack_i4_56, dat_i4_56,
@@ -145,6 +144,33 @@ module something #(parameter il = 64, parameter ol = 64, parameter cs = 8)
     //   intext[63]
     //   );
 
+    // swap swappy (
+    //   req_i1, ack_i1, dat_i1,
+    //   req_i2, ack_i2, dat_i2,
+    //   intext[4], intext[5], outtext[4],
+    //   req_i5, ack_i5, dat_i5,
+    //   req_i6, ack_i6, dat_i6,
+    //   intext[63]);
+
+    // swap2 swappy (
+    //   req_i1, ack_i1, dat_i1,
+    //   req_i2, ack_i2, dat_i2,
+    //   intext[4], intext[5], outtext[4],
+    //   req_i5, ack_i5, dat_i5,
+    //   req_i6, ack_i6, dat_i6,
+    //   intext[63]);
+
+    swap_sink swappy (
+      req_i1, ack_i1, dat_i1,
+      req_i2, ack_i2, dat_i2,
+      intext[4], intext[5], outtext[4],
+      req_i5, ack_i5, dat_i5,
+      intext[63]);
+
+    // assign {req_i5, dat_i5, req_i6, dat_i6} = {req_i1, dat_i1, req_i2, dat_i2};
+    // assign {ack_i1, ack_i2} = {ack_i5, ack_i6};
+
+    wire req_i5, ack_i5, dat_i5;
     wire req_i6, ack_i6, dat_i6;
     hlatch #(.RhandshakeVal(1'b0), .RdataVal(1'b0)) main5 (
       req_i5, ack_i5, dat_i5,
