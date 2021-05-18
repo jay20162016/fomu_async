@@ -52,7 +52,8 @@ module something #(parameter il = 64, parameter ol = 64, parameter cs = 8)
     // merge merge01_2 (
     //   req_i1, ack_i1, dat_i1,
     //   req_i2, ack_i2, dat_i2,
-    //   req_i12_3, ack_i12_3, dat_i12_3
+    //   req_i12_3, ack_i12_3, dat_i12_3,
+    //   rst
     //   );
 
     // merge2 merge01_2 (
