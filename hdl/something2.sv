@@ -161,7 +161,14 @@ module something #(parameter il = 64, parameter ol = 64, parameter cs = 8)
     //   req_i6, ack_i6, dat_i6,
     //   intext[63]);
 
-    swap_sink swappy (
+    // swap_sink swappy (
+    //   req_i1, ack_i1, dat_i1,
+    //   req_i2, ack_i2, dat_i2,
+    //   intext[4], intext[5], outtext[4],
+    //   req_i5, ack_i5, dat_i5,
+    //   intext[63]);
+
+    swap_sink2 swappy (
       req_i1, ack_i1, dat_i1,
       req_i2, ack_i2, dat_i2,
       intext[4], intext[5], outtext[4],
